@@ -86,7 +86,13 @@ class _ChatPageState extends ConsumerState<ChatPage> {
         body: Column(
           children: [
             Expanded(
+              //Riverpodを使って、プロバイダから情報を監視するための処理
+              //postsProviderから提供されたデータの変化を監視し、そのデータを元にUIを変更する
+              //whenメソッドで、非同期処理の結果に基づいて、それぞれの処理を実施するよう定義する
                 child: ref.watch(postsProvider).when(
+                  //whenプロパティであるdata, error, loadingでそれぞれの状態に関する処理を行う
+                  //データを正常取得できたときの処理
+                  //data引数に取得したデータが入る
                   data: (data) {
                     return ListView.builder(
                       itemCount: data.docs.length,
@@ -96,13 +102,16 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                       },
                     );
                   },
+                  //エラー発生時の処理
                   error: (_, __) {
                     return const Center(
                       child: Text('不具合が発生しました'),
                     );
                   },
+                  //ローディング中の処理
                   loading: () {
                     return const Center(
+                      //ロード中であるインジケーターを表示
                       child: CircularProgressIndicator(),
                     );
                   },
