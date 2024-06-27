@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,7 +7,7 @@ import '../models/post/post.dart';
 import '../providers/posts_provider.dart';
 import '../references.dart';
 import '../widgets/post_widget.dart';
-import 'profile_page.dart';
+//import 'profile_page.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
   const ChatPage({super.key});
@@ -70,7 +70,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return const ProfilePage();
+                      //return const ProfilePage();
+                      return const ChatPage();
                     },
                   ),
                 );
@@ -89,33 +90,33 @@ class _ChatPageState extends ConsumerState<ChatPage> {
               //Riverpodを使って、プロバイダから情報を監視するための処理
               //postsProviderから提供されたデータの変化を監視し、そのデータを元にUIを変更する
               //whenメソッドで、非同期処理の結果に基づいて、それぞれの処理を実施するよう定義する
-                child: ref.watch(postsProvider).when(
-                  //whenプロパティであるdata, error, loadingでそれぞれの状態に関する処理を行う
-                  //データを正常取得できたときの処理
-                  //data引数に取得したデータが入る
-                  data: (data) {
-                    return ListView.builder(
-                      itemCount: data.docs.length,
-                      itemBuilder: (context, index) {
-                        final post = data.docs[index].data();
-                        return PostWidget(post: post);
-                      },
-                    );
-                  },
-                  //エラー発生時の処理
-                  error: (_, __) {
-                    return const Center(
-                      child: Text('不具合が発生しました'),
-                    );
-                  },
-                  //ローディング中の処理
-                  loading: () {
-                    return const Center(
-                      //ロード中であるインジケーターを表示
-                      child: CircularProgressIndicator(),
-                    );
-                  },
-                ),
+              child: ref.watch(postsProvider).when(
+                //whenプロパティであるdata, error, loadingでそれぞれの状態に関する処理を行う
+                //データを正常取得できたときの処理
+                //data引数に取得したデータが入る
+                data: (data) {
+                  return ListView.builder(
+                    itemCount: data.docs.length,
+                    itemBuilder: (context, index) {
+                      final post = data.docs[index].data();
+                      return PostWidget(post: post);
+                    },
+                  );
+                },
+                //エラー発生時の処理
+                error: (_, __) {
+                  return const Center(
+                    child: Text('不具合が発生しました'),
+                  );
+                },
+                //ローディング中の処理
+                loading: () {
+                  return const Center(
+                    //ロード中であるインジケーターを表示
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
             ),
             // Expanded(
             //   child: StreamBuilder<QuerySnapshot<Post>>(
